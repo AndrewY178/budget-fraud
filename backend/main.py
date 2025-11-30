@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.database import engine, Base
 from app.models import User, Category, Transaction, FraudAlert
+from app.routers import auth
 
 app = FastAPI(
     title="Fraud Budget Balancer API",
@@ -17,6 +18,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Include routers
+app.include_router(auth.router)
 
 @app.on_event("startup")
 async def startup_event():
